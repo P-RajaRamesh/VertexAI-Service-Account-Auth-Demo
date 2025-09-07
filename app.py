@@ -25,7 +25,8 @@ MODEL_NAME=os.getenv("MODEL_NAME")
 # )
 
 SCOPES = ["https://www.googleapis.com/auth/cloud-platform"]
-key_path = os.environ["GOOGLE_APPLICATION_CREDENTIALS"]
+# key_path = os.environ["GOOGLE_APPLICATION_CREDENTIALS"]
+key_path = os.environ.get("GOOGLE_APPLICATION_CREDENTIALS")
 
 credentials = service_account.Credentials.from_service_account_file(
     key_path,

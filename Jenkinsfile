@@ -9,9 +9,9 @@ pipeline {
     environment {
         DOCKER_HUB_REPO = "rajaramesh7410/vertexai-demo"
         DOCKER_HUB_CREDENTIALS_ID = "dockerhub-token"
-        IMAGE_TAG = "v6"
+        IMAGE_TAG = "v7"
         // IMAGE_TAG = "v${BUILD_NUMBER}"
-        GOOGLE_APPLICATION_CREDENTIALS = credentials('gcp-service-account-key')
+        // GOOGLE_APPLICATION_CREDENTIALS = credentials('gcp-service-account-key')
     }
     stages {
         stage('Checkout Github') {
@@ -19,12 +19,26 @@ pipeline {
                 echo 'Checking out code from GitHub...'
                 checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'github-token', url: 'https://github.com/P-RajaRamesh/VertexAI-Service-Account-Auth-Demo.git']])
             }
-        }        
+        }
         stage('Build Docker Image') {
             steps {
                 script {
                     echo 'Building Docker image...'
                     dockerImage = docker.build("${DOCKER_HUB_REPO}:${IMAGE_TAG}")
+                }
+            }
+        }
+        stage('VertexAI Service Account Authentication...') {
+            steps {
+                script {
+                    withCredentials([file(credentialsId: 'gcp-service-account-key', variable: 'GCP_KEY')]) {
+                        sh """
+                            docker run \
+                            -e GOOGLE_APPLICATION_CREDENTIALS=/tmp/gcp-key.json \
+                            -v \$GCP_KEY:/tmp/gcp-key.json:ro \
+                            ${dockerImage.imageName()}
+                        """
+                    }
                 }
             }
         }
