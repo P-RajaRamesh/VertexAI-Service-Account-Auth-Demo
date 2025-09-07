@@ -33,7 +33,7 @@ pipeline {
                 script {
                     withCredentials([file(credentialsId: 'gcp-service-account-key', variable: 'GCP_KEY')]) {
                         sh """
-                            docker run \
+                            docker run -d \
                             -e GOOGLE_APPLICATION_CREDENTIALS=/tmp/gcp-key.json \
                             -v \$GCP_KEY:/tmp/gcp-key.json:ro \
                             ${dockerImage.imageName()}
