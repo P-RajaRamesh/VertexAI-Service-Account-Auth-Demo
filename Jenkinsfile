@@ -1,5 +1,5 @@
 pipeline {
-    // agent any
+    agent any
     // agent {
     //     docker {
     //         image 'google/cloud-sdk:latest'
