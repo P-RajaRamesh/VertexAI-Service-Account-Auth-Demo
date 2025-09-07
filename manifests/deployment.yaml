@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: llmops-app
-        image: rajaramesh7410/vertexai-demo:v4
+        image: rajaramesh7410/vertexai-demo:v5
         ports:
           - containerPort: 8501
         envFrom:
