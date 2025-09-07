@@ -9,7 +9,7 @@ pipeline {
     environment {
         DOCKER_HUB_REPO = "rajaramesh7410/vertexai-demo"
         DOCKER_HUB_CREDENTIALS_ID = "dockerhub-token"
-        IMAGE_TAG = "v3"
+        IMAGE_TAG = "v4"
         // IMAGE_TAG = "v${BUILD_NUMBER}"
     }
     stages {
