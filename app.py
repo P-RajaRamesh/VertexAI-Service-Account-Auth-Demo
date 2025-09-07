@@ -14,23 +14,14 @@ st.set_page_config(
 
 st.title("Demo App")
 
-# SERVICE_ACCOUNT_KEY_FILE=os.getenv("SERVICE_ACCOUNT_KEY_FILE")
+SERVICE_ACCOUNT_KEY_FILE=os.getenv("SERVICE_ACCOUNT_KEY_FILE")
 PROJECT_ID=os.getenv("PROJECT_ID")
 LOCATION=os.getenv("LOCATION")
 MODEL_NAME=os.getenv("MODEL_NAME")
 
-# credentials=service_account.Credentials.from_service_account_file(
-#     SERVICE_ACCOUNT_KEY_FILE,
-#     scopes=["https://www.googleapis.com/auth/cloud-platform"]
-# )
-
-SCOPES = ["https://www.googleapis.com/auth/cloud-platform"]
-# key_path = os.environ["GOOGLE_APPLICATION_CREDENTIALS"]
-key_path = os.environ.get("GOOGLE_APPLICATION_CREDENTIALS")
-
-credentials = service_account.Credentials.from_service_account_file(
-    key_path,
-    scopes=SCOPES
+credentials=service_account.Credentials.from_service_account_file(
+    SERVICE_ACCOUNT_KEY_FILE,
+    scopes=["https://www.googleapis.com/auth/cloud-platform"]
 )
 
 client = genai.Client(
