@@ -6,12 +6,12 @@ pipeline {
     //         args '--network host'
     //     }
     // }
-    // environment {
-    //     DOCKER_HUB_REPO = "rajaramesh7410/vertexai-demo"
-    //     DOCKER_HUB_CREDENTIALS_ID = "dockerhub-token"
-    //     IMAGE_TAG = "v1"
-    //     // IMAGE_TAG = "v${BUILD_NUMBER}"
-    // }
+    environment {
+        DOCKER_HUB_REPO = "rajaramesh7410/vertexai-demo"
+        DOCKER_HUB_CREDENTIALS_ID = "dockerhub-token"
+        IMAGE_TAG = "v1"
+        // IMAGE_TAG = "v${BUILD_NUMBER}"
+    }
     stages {
         stage('Checkout Github') {
             steps {
@@ -19,24 +19,24 @@ pipeline {
                 checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'github-token', url: 'https://github.com/P-RajaRamesh/VertexAI-Service-Account-Auth-Demo.git']])
             }
         }
-        // stage('Build Docker Image') {
-        //     steps {
-        //         script {
-        //             echo 'Building Docker image...'
-        //             dockerImage = docker.build("${DOCKER_HUB_REPO}:${IMAGE_TAG}")
-        //         }
-        //     }
-        // }
-        // stage('Push Image to DockerHub') {
-        //     steps {
-        //         script {
-        //             echo 'Pushing Docker image to DockerHub...'
-        //             docker.withRegistry('https://registry.hub.docker.com' , "${DOCKER_HUB_CREDENTIALS_ID}") {
-        //                 dockerImage.push("${IMAGE_TAG}")
-        //             }
-        //         }
-        //     }
-        // }
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    echo 'Building Docker image...'
+                    dockerImage = docker.build("${DOCKER_HUB_REPO}:${IMAGE_TAG}")
+                }
+            }
+        }
+        stage('Push Image to DockerHub') {
+            steps {
+                script {
+                    echo 'Pushing Docker image to DockerHub...'
+                    docker.withRegistry('https://registry.hub.docker.com' , "${DOCKER_HUB_CREDENTIALS_ID}") {
+                        dockerImage.push("${IMAGE_TAG}")
+                    }
+                }
+            }
+        }
         // stage('Update Deployment YAML with New Tag') {
         //     steps {
         //         script {
