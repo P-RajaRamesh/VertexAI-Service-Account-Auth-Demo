@@ -3,12 +3,13 @@ pipeline {
     agent {
         docker {
             image 'google/cloud-sdk:latest'
+            args '--network host'
         }
     }
     environment {
         DOCKER_HUB_REPO = "rajaramesh7410/vertexai-demo"
         DOCKER_HUB_CREDENTIALS_ID = "dockerhub-token"
-        IMAGE_TAG = "v2"
+        IMAGE_TAG = "v3"
         // IMAGE_TAG = "v${BUILD_NUMBER}"
     }
     stages {
