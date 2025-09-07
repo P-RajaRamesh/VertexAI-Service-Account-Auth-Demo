@@ -1,16 +1,17 @@
 pipeline {
-    // agent any
-    agent {
-        docker {
-            image 'google/cloud-sdk:latest'
-            args '--network host'
-        }
-    }
+    agent any
+    // agent {
+    //     docker {
+    //         image 'google/cloud-sdk:latest'
+    //         args '--network host'
+    //     }
+    // }
     environment {
         DOCKER_HUB_REPO = "rajaramesh7410/vertexai-demo"
         DOCKER_HUB_CREDENTIALS_ID = "dockerhub-token"
-        IMAGE_TAG = "v5"
+        IMAGE_TAG = "v6"
         // IMAGE_TAG = "v${BUILD_NUMBER}"
+        GOOGLE_APPLICATION_CREDENTIALS = credentials('gcp-service-account-key')
     }
     stages {
         stage('Checkout Github') {
@@ -61,18 +62,18 @@ pipeline {
         //         }
         //     }
         // }
-        stage('VertexAI Service Account Authentication...') {
-            steps {
-                script {
-                    withCredentials([file(credentialsId: 'gcp-service-account-key', variable: 'GCP_KEY')]) {
-                        sh '''
-                        export GOOGLE_APPLICATION_CREDENTIALS=$GCP_KEY
-                        gcloud auth activate-service-account --key-file=$GOOGLE_APPLICATION_CREDENTIALS
-                        '''
-                    }
-                }
-            }
-        }
+        // stage('VertexAI Service Account Authentication...') {
+        //     steps {
+        //         script {
+        //             withCredentials([file(credentialsId: 'gcp-service-account-key', variable: 'GCP_KEY')]) {
+        //                 sh '''
+        //                 export GOOGLE_APPLICATION_CREDENTIALS=$GCP_KEY
+        //                 gcloud auth activate-service-account --key-file=$GOOGLE_APPLICATION_CREDENTIALS
+        //                 '''
+        //             }
+        //         }
+        //     }
+        // }
         stage('Install Kubectl & ArgoCD CLI Setup') {
             steps {
                 sh '''
